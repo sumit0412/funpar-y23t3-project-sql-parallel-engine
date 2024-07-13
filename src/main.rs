@@ -4,7 +4,7 @@ use std::time::Instant;
 use parallel::{normal_scan, parallel_scan};
 
 fn main() {
-    let data: Vec<i32> = (0..1_000_000).collect();
+    let data: Vec<i32> = (0..100).collect();
 
     // Measuring the normal code execution time
     let start = Instant::now();
