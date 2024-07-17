@@ -6,7 +6,12 @@ edition = "2021"
 [dependencies]
 sqlparser = "0.48.0"
 rayon = "1.10.0"
+criterion = "0.5.1"
 
 [[test]]
 name = "integration_tests"
 path = "src/tests/integration_tests.rs"
+
+[[bench]]
+name = "scan_benchmark"
+harness = false
