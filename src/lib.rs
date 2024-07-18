@@ -3,3 +3,4 @@ pub mod planner;
 pub mod executor;
 pub mod scan;
 pub mod aggregations;
+pub mod sorting;

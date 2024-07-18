@@ -20,3 +20,7 @@ harness = false
 [[bench]]
 name = "aggregation_benchmark"
 harness = false
+
+[[bench]]
+name = "sorting_benchmark"
+harness = false
