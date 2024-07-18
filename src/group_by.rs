@@ -2,10 +2,25 @@ use std::hash::Hash;
 use std::collections::HashMap;
 use rayon::prelude::*;
 
+const PARALLELIZATION_THRESHOLD: usize = 100000; // Adjust this based on your benchmark results
+
 #[derive(Debug, Clone, PartialEq)]
 pub struct GroupByResult<K, V> {
     pub key: K,
     pub avg_value: V,
+}
+
+pub fn adaptive_group_by<T, K, F>(data: &[T], key_func: F) -> (Vec<GroupByResult<K, f64>>, String)
+where
+    T: Clone + Send + Sync,
+    K: Eq + Hash + Clone + Send,
+    F: Fn(&T) -> (K, f64) + Sync + Send + Clone,
+{
+    if data.len() < PARALLELIZATION_THRESHOLD {
+        (sequential_group_by(data, key_func), "Sequential".to_string())
+    } else {
+        (parallel_group_by(data, key_func), "Parallel".to_string())
+    }
 }
 
 pub fn sequential_group_by<T, K, F>(data: &[T], key_func: F) -> Vec<GroupByResult<K, f64>>

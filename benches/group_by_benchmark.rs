@@ -1,5 +1,5 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use project::group_by::{sequential_group_by, parallel_group_by};
+use project::group_by::{sequential_group_by, parallel_group_by, adaptive_group_by};
 use rand::Rng;
 
 #[derive(Clone, Debug)]
@@ -32,6 +32,10 @@ fn bench_group_by(c: &mut Criterion) {
 
         group.bench_function("Parallel Group By", |b| {
             b.iter(|| parallel_group_by(black_box(&data), |r| (r.id, r.value)))
+        });
+
+        group.bench_function("Adaptive Group By", |b| {
+            b.iter(|| adaptive_group_by(black_box(&data), |r| (r.id, r.value)))
         });
 
         group.finish();

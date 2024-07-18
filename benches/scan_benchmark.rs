@@ -1,8 +1,8 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 use project::scans::{
-    adaptive_scan, adaptive_scan_with_filter, normal_scan, normal_scan_with_filter, parallel_scan,
-    parallel_scan_chunked, parallel_scan_chunked_with_filter, parallel_scan_with_filter,
+    adaptive_scan, adaptive_scan_with_filter, normal_scan, normal_scan_with_filter,
+    parallel_scan, parallel_scan_with_filter,
 };
 
 fn process(x: &i32) -> i32 {
@@ -63,16 +63,6 @@ fn bench_scans(c: &mut Criterion) {
     group.bench_function("Adaptive Scan with Filter (Large)", |b| {
         b.iter(|| adaptive_scan_with_filter(black_box(&large_data), process, predicate))
     });
-
-    // Chunked parallel scan benchmarks
-    for &chunk_size in &[10000, 50000, 100000, 500000] {
-        group.bench_function(format!("Parallel Chunked (size {})", chunk_size), |b| {
-            b.iter(|| parallel_scan_chunked(black_box(&large_data), process, chunk_size))
-        });
-        group.bench_function(format!("Parallel Chunked with Filter (size {})", chunk_size), |b| {
-            b.iter(|| parallel_scan_chunked_with_filter(black_box(&large_data), process, predicate, chunk_size))
-        });
-    }
 
     group.finish();
 }
