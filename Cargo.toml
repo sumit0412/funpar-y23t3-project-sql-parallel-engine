@@ -28,3 +28,7 @@ harness = false
 [[bench]]
 name = "join_benchmark"
 harness = false
+
+[[bench]]
+name = "group_by_benchmark"
+harness = false

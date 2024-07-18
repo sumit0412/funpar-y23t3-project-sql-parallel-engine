@@ -59,15 +59,7 @@ fn bench_aggregations(c: &mut Criterion) {
     group.bench_function("Parallel Distinct Count", |b| {
         b.iter(|| parallel_distinct_count(black_box(&data)))
     });
-
-    group.bench_function("Normal Median", |b| {
-        b.iter(|| normal_median(black_box(&data)))
-    });
-
-    group.bench_function("Parallel Median", |b| {
-        b.iter(|| parallel_median(black_box(&data)))
-    });
-
+    
     for &chunk_size in &[1000, 10000, 100000] {
         group.bench_function(format!("Parallel Sum Chunked (size {})", chunk_size), |b| {
             b.iter(|| parallel_sum_chunked(black_box(&data), chunk_size))
@@ -87,10 +79,6 @@ fn bench_aggregations(c: &mut Criterion) {
 
         group.bench_function(format!("Parallel Distinct Count Chunked (size {})", chunk_size), |b| {
             b.iter(|| parallel_distinct_count_chunked(black_box(&data), chunk_size))
-        });
-
-        group.bench_function(format!("Parallel Median Chunked (size {})", chunk_size), |b| {
-            b.iter(|| parallel_median_chunked(black_box(&data), chunk_size))
         });
     }
 
