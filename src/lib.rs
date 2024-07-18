@@ -1,4 +1,5 @@
 pub mod parser;
 pub mod planner;
 pub mod executor;
-pub mod parallel;
+pub mod scan;
+pub mod aggregations;

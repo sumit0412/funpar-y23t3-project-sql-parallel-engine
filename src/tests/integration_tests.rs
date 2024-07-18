@@ -1,5 +1,5 @@
 use project::parser::parse_sql;
-use project::parallel::{normal_scan, parallel_scan};
+use project::scan::{normal_scan, parallel_scan};
 
 #[cfg(test)]
 mod tests {

@@ -15,3 +15,7 @@ path = "src/tests/integration_tests.rs"
 [[bench]]
 name = "scan_benchmark"
 harness = false
+
+[[bench]]
+name = "aggregation_benchmark"
+harness = false

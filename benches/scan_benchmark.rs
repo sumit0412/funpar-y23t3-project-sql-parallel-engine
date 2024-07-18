@@ -1,6 +1,6 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
-use project::parallel::{
+use project::scan::{
     normal_scan, normal_scan_with_filter, parallel_scan, parallel_scan_chunked,
     parallel_scan_chunked_with_filter, parallel_scan_with_filter,
 };
