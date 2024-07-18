@@ -1,6 +1,6 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
-use project::scan::{
+use project::scans::{
     normal_scan, normal_scan_with_filter, parallel_scan, parallel_scan_chunked,
     parallel_scan_chunked_with_filter, parallel_scan_with_filter,
 };
@@ -33,10 +33,6 @@ fn bench_scans(c: &mut Criterion) {
     group.bench_function("Parallel Scan with Filter", |b| {
         b.iter(|| parallel_scan_with_filter(black_box(&data), process, predicate))
     });
-
-    // group.bench_function("Parallel Scan with Count", |b| {
-    //     b.iter(|| parallel_scan_with_count(black_box(&data), process))
-    // });
 
     for &chunk_size in &[100, 1000, 10000, 100000] {
         group.bench_function(format!("Parallel Chunked (size {})", chunk_size), |b| {

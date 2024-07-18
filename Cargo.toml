@@ -24,3 +24,7 @@ harness = false
 [[bench]]
 name = "sorting_benchmark"
 harness = false
+
+[[bench]]
+name = "join_benchmark"
+harness = false

@@ -1,5 +1,3 @@
-// benches/sorting_benchmark.rs
-
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use project::sorting::{sequential_merge_sort, parallel_merge_sort, sequential_quicksort, parallel_quicksort};
 use rand::Rng;
