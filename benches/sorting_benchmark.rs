@@ -1,5 +1,7 @@
+// benches/sorting_benchmark.rs
+
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use project::sorting::{sequential_merge_sort, parallel_merge_sort};
+use project::sorting::{sequential_merge_sort, parallel_merge_sort, sequential_quicksort, parallel_quicksort};
 use rand::Rng;
 
 fn generate_random_data(size: usize) -> Vec<i32> {
@@ -21,6 +23,22 @@ fn bench_sorting(c: &mut Criterion) {
 
         group.bench_function("Parallel Merge Sort", |b| {
             b.iter(|| parallel_merge_sort(black_box(&data)))
+        });
+
+        group.bench_function("Sequential Quicksort", |b| {
+            b.iter_batched(
+                || data.clone(),
+                |mut d| sequential_quicksort(black_box(&mut d)),
+                criterion::BatchSize::SmallInput,
+            )
+        });
+
+        group.bench_function("Parallel Quicksort", |b| {
+            b.iter_batched(
+                || data.clone(),
+                |mut d| parallel_quicksort(black_box(&mut d)),
+                criterion::BatchSize::SmallInput,
+            )
         });
 
         group.finish();

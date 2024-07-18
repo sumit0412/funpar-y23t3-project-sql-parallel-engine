@@ -43,3 +43,44 @@ fn merge<T: Ord + Clone>(left: &[T], right: &[T]) -> Vec<T> {
 
     result
 }
+
+pub fn sequential_quicksort<T: Ord + Clone>(arr: &mut [T]) {
+    if arr.len() <= 1 {
+        return;
+    }
+
+    let pivot_index = partition(arr);
+    let (left, right) = arr.split_at_mut(pivot_index);
+    sequential_quicksort(left);
+    sequential_quicksort(&mut right[1..]);
+}
+
+pub fn parallel_quicksort<T: Ord + Clone + Send>(arr: &mut [T]) {
+    if arr.len() <= 1 {
+        return;
+    }
+
+    let pivot_index = partition(arr);
+    let (left, right) = arr.split_at_mut(pivot_index);
+    
+    rayon::join(
+        || parallel_quicksort(left),
+        || parallel_quicksort(&mut right[1..])
+    );
+}
+
+fn partition<T: Ord>(arr: &mut [T]) -> usize {
+    let pivot_index = arr.len() / 2;
+    arr.swap(pivot_index, arr.len() - 1);
+    let mut i = 0;
+    
+    for j in 0..arr.len() - 1 {
+        if arr[j] <= arr[arr.len() - 1] {
+            arr.swap(i, j);
+            i += 1;
+        }
+    }
+    
+    arr.swap(i, arr.len() - 1);
+    i
+}
