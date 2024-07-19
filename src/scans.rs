@@ -21,13 +21,10 @@ where
     T: Send + Sync + Clone,
     F: Fn(&T) -> T + Sync + Send + Clone,
 {
-    let sequential_result = normal_scan(data, process.clone());
-    let parallel_result = parallel_scan(data, process.clone());
-    
     if should_parallelize(data.len()) {
-        (parallel_result, String::from("Parallel"))
+        (parallel_scan(data, process), "Parallel".to_string())
     } else {
-        (sequential_result, String::from("Sequential"))
+        (normal_scan(data, process), "Sequential".to_string())
     }
 }
 
@@ -63,10 +60,7 @@ where
     T: Send + Sync + Clone,
     F: Fn(&T) -> T + Sync + Send,
 {
-    let chunk_size = determine_chunk_size(data.len());
-    data.par_chunks(chunk_size)
-        .flat_map(|chunk| chunk.par_iter().map(&process))
-        .collect()
+    data.par_iter().map(process).collect()
 }
 
 #[allow(dead_code)]
